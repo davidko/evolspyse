@@ -1,0 +1,14 @@
+<!-- SPYSE Remote -->
+
+<head>
+    <title>SPYSE Remote</title>
+    <link rel="stylesheet" type="text/css" HREF="k_base.css">
+</head>
+<h3>SPYSE Remote</h3>
+
+<% 
+Include("k_tabs.hip",
+    labels=["AMS agent list", "Menu B","Menu C"],
+    urls=["tabsA.pih", "tabsB.pih","tabsC.pih"],
+    targetUrl="index.pih")
+%>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--from http://www.fipa.org/specs/fipa00071/SC00071E.html -->
+
+<!-- Document Type: XML DTD
+
+     Document Purpose: Encoding of FIPA ACL messages in XML
+     (see [FIPA00067]) and http://www.fipa.org/)
+     Last Revised: 2002/05/10 -->
+
+<!-- Possible FIPA Communicative Acts. See [FIPA00037] for a
+     full list of valid performatives. -->
+<!ENTITY    % communicative-acts           "accept-proposal
+                                          | agree
+                                          | cancel
+                                          | cfp
+                                          | confirm
+                                          | disconfirm
+                                          | failure
+                                          | inform
+                                          | not-understood
+                                          | propose
+                                          | query-if
+                                          | query-ref
+                                          | refuse
+                                          | reject-proposal
+                                          | request
+                                          | request-when
+                                          | request-whenever
+                                          | subscribe
+                                          | inform-if
+                                          | inform-ref
+                                          | proxy
+                                          | propagate">
+
+<!-- The FIPA message root element, the communicative act is
+     an attribute - see below and the message itself is a list
+     of parameters. The list is unordered. None of the elements
+     should occur more than once except receiver. -->
+<!ENTITY    % msg-param                    "receiver
+                                          | sender
+                                          | content
+                                          | language
+                                          | encoding
+                                          | ontology
+                                          | protocol
+                                          | reply-with
+                                          | in-reply-to
+                                          | reply-by
+                                          | reply-to
+                                          | conversation-id
+                                          | user-defined">
+
+<!ELEMENT   fipa-message                  ( %msg-param; )*>
+
+<!-- Attribute for the fipa-message - the communicative act itself and
+     the conversation id (which is here so an ID value can be used). -->
+<!ATTLIST   fipa-message                  act ( %communicative-acts; ) #REQUIRED
+                                          conversation-id ID #IMPLIED>
+
+<!ELEMENT   sender                        ( agent-identifier )>
+
+<!ELEMENT   receiver                      ( agent-identifier+ )>
+
+<!-- The message content.
+     One can choose to embed the actual content in the message,
+     or alternatively refer to a URI which represents this content. -->
+<!ELEMENT   content                       ( #PCDATA )>
+<!ATTLIST   content                         href CDATA #IMPLIED>
+
+<!-- The content language used for the content.
+     The linking attribute href associated with language can be used
+     to refer in an unambiguous way to the (formal) definition of the
+     standard/fipa content language. -->
+<!ELEMENT   language                      ( #PCDATA )>
+<!ATTLIST   language                        href CDATA #IMPLIED>
+
+<!-- The encoding used for the content language.
+     The linking attribute href associated with encoding can be used
+     to refer in an unambiguous way to the (formal) definition of the
+     language encoding. -->
+
+<!ELEMENT   encoding    ( #PCDATA )>
+<!ATTLIST   encoding     href CDATA #IMPLIED>
+
+<!-- The ontology used in the content.
+     The linking attribute href associated with ontology can be used
+     to refer in an unambiguous way to the (formal) definition of the
+     ontology. -->
+<!ELEMENT   ontology                      ( #PCDATA )>
+<!ATTLIST   ontology                       href CDATA #IMPLIED>
+
+<!-- The protocol element.
+     The linking attribute href associated with protocol can be used
+     to refer in an unambiguous way to the (formal) definition of the
+     protocol. -->
+<!ELEMENT   protocol                      ( #PCDATA )>
+<!ATTLIST   protocol                        href CDATA #IMPLIED>
+
+<!ELEMENT   reply-with                   ( #PCDATA )>
+<!ATTLIST   reply-with                     href CDATA #IMPLIED>
+
+<!ELEMENT   in-reply-to                   ( #PCDATA )>
+<!ATTLIST   in-reply-to                    href CDATA #IMPLIED>
+
+<!ELEMENT   reply-by                        EMPTY>
+<!ATTLIST   reply-by                        time CDATA #REQUIRED
+
+                                            href CDATA #IMPLIED>
+
+<!ELEMENT   reply-to                      ( agent-identifier+ )>
+
+<!ELEMENT   conversation-id               ( #PCDATA )>
+<!ATTLIST   conversation-id                 href CDATA #IMPLIED>
+
+<!ELEMENT   agent-identifier              ( name,
+                                            addresses?,
+                                            resolvers?,
+                                            user-defined* )>
+
+<!ELEMENT   name                            EMPTY>
+
+<!-- An id can be used to uniquely identify the name of the agent.
+     The refid attribute can be used to refer to an already defined
+     agent name, avoiding unnecessary repetition. Either the id
+     OR refid should be specified, (both should not be present at the
+     same time). -->
+
+<!ATTLIST   name                            id ID #IMPLIED
+                                            refid IDREF #IMPLIED>
+
+<!ELEMENT   addresses                     ( url+ )>
+
+<!ELEMENT   url                             EMPTY>
+<!ATTLIST   url                             href CDATA #IMPLIED>
+
+<!ELEMENT   resolvers                     ( agent-identifier+ )>
+
+<!ELEMENT   user-defined                  ( #PCDATA )>
+<!ATTLIST   user-defined                    href CDATA #IMPLIED>

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svnroot/spyse/!svn/ver/257/spyse/ibas
+END
+view_agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/spyse/!svn/ver/228/spyse/ibas/view_agent.py
+END
+iba.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/spyse/!svn/ver/254/spyse/ibas/iba.py
+END
+node_index.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/spyse/!svn/ver/228/spyse/ibas/node_index.py
+END
+logger_agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/254/spyse/ibas/logger_agent.py
+END
+node_manager_agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/spyse/!svn/ver/228/spyse/ibas/node_manager_agent.py
+END
+ibas.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/spyse/!svn/ver/228/spyse/ibas/ibas.py
+END
+ibas_global.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/spyse/!svn/ver/228/spyse/ibas/ibas_global.py
+END
+interface_agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/spyse/!svn/ver/250/spyse/ibas/interface_agent.py
+END
+status_agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/257/spyse/ibas/status_agent.py
+END
+search_agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/228/spyse/ibas/search_agent.py
+END
+node.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/spyse/!svn/ver/228/spyse/ibas/node.py
+END
+behaviours.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/spyse/!svn/ver/228/spyse/ibas/behaviours.py
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/spyse/!svn/ver/266/spyse/core/platform
+END
+hap.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/232/spyse/core/platform/hap.py
+END
+df.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/spyse/!svn/ver/257/spyse/core/platform/df.py
+END
+constants.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/spyse/!svn/ver/214/spyse/core/platform/constants.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/spyse/!svn/ver/3/spyse/core/platform/__init__.py
+END
+ams.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/253/spyse/core/platform/ams.py
+END
+threadpool.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/spyse/!svn/ver/259/spyse/core/platform/threadpool.py
+END
+platform.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/spyse/!svn/ver/266/spyse/core/platform/platform.py
+END

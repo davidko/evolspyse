@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/spyse/!svn/ver/249/spyse/core/behaviours
+END
+clips.py
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/spyse/!svn/ver/3/spyse/core/behaviours/clips.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/spyse/!svn/ver/3/spyse/core/behaviours/__init__.py
+END
+composite.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/spyse/!svn/ver/246/spyse/core/behaviours/composite.py
+END
+ooda.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/3/spyse/core/behaviours/ooda.py
+END
+fsm.py
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/spyse/!svn/ver/249/spyse/core/behaviours/fsm.py
+END
+behaviours.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/spyse/!svn/ver/248/spyse/core/behaviours/behaviours.py
+END

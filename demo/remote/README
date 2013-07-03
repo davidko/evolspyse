@@ -1,0 +1,24 @@
+                          README
+
+To run this demo, first run pyro-ns and then run the pair of spyse
+programs with compatible options, e.g.,
+
+server.py --port=9000 --distribution=broadcast-retrieve --ns=local
+client.py --port=9001 --distribution=broadcast-retrieve --ns=local
+
+server.py --port=9000 --distribution=broadcast-update --ns=local
+client.py --port=9001 --distribution=broadcast-update --ns=local
+
+server.py --port=9000 --distribution=server --ns=local
+client.py --port=9001 --distribution=client --ns=local
+
+The following work if client.py is edited so that Yelp's HAP is
+given, e.g.,
+    hap = HAP(host='theappropriatehostname', port='9000')
+
+server.py --port=9000 --distribution=broadcast-update
+client.py --port=9001 --distribution=broadcast-update
+
+server.py --port=9000 --distribution=server
+client.py --port=9001 --distribution=client
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<scenario>
+<event starttime='1000'>
+<car ID='GreenCar' color='blue' positionX='0' positionY='0' positionZ='0' driving='true' orientation='0' speed='0'/>
+</event>
+
+<event starttime='1500'>
+<car ID='GreenCar' color='green' positionX='0' positionY='0' positionZ='0' driving='true' orientation='0' speed='0'/>
+</event>
+
+<event starttime='2500'>
+<car ID='GreenCar' color='red' positionX='0' positionY='0' positionZ='0' driving='true' orientation='0' speed='0'/>
+</event>
+
+<event starttime='3500'>
+<car ID='GreenCar' color='yellow' positionX='0' positionY='0' positionZ='0' driving='true' orientation='0' speed='0'/>
+</event>
+
+<event starttime='4500'>
+<car ID='GreenCar' color='orange' positionX='0' positionY='0' positionZ='0' driving='true' orientation='0' speed='0'/>
+</event>
+
+<event starttime='14500'>
+<car ID='GreenCar' driving='false'/>
+</event>
+
+<event starttime='18500'>
+<car ID='GreenCar' fire='true'/>
+</event>
+
+
+<event starttime='30000'>
+<car ID='GreenCar' fire='false'/>
+</event>
+
+<event starttime='35000'>
+<car ID='GreenCar' fire='false' driving='true'/>
+</event>
+
+</scenario>

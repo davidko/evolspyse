@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/spyse/!svn/ver/250/spyse/demo/remote
+END
+client.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/250/spyse/demo/remote/client.py
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/spyse/!svn/ver/187/spyse/demo/remote/README
+END
+server.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/250/spyse/demo/remote/server.py
+END

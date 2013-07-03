@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/spyse/!svn/ver/257/spyse/core/content
+END
+content.py
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/spyse/!svn/ver/257/spyse/core/content/content.py
+END
+message.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/spyse/!svn/ver/116/spyse/core/content/message.xml
+END
+codec.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/253/spyse/core/content/codec.py
+END
+fipa.acl.rep.xml.std.dtd
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/spyse/!svn/ver/116/spyse/core/content/fipa.acl.rep.xml.std.dtd
+END
+msg.xml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/116/spyse/core/content/msg.xml
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/spyse/!svn/ver/3/spyse/core/content/__init__.py
+END
+test.dtd
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/116/spyse/core/content/test.dtd
+END
+test.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/116/spyse/core/content/test.xml
+END

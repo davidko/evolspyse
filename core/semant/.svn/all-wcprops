@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/spyse/!svn/ver/260/spyse/core/semant
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/3/spyse/core/semant/__init__.py
+END
+environment.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/spyse/!svn/ver/260/spyse/core/semant/environment.py
+END
+semant.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/spyse/!svn/ver/3/spyse/core/semant/semant.py
+END

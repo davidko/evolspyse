@@ -1,0 +1,172 @@
+<head>
+    <title>IBAS Web Interface</title>
+    <link rel="stylesheet" type="text/css" HREF="ibas.css">
+</head>
+<img src='ibas.png'>
+
+<ul id="navigation">
+<li><a href="index.pih">Home</a></li>
+<li><a href="search.pih" id="current">Search Nodes</a></li>
+<li><a href="add.pih">Add Nodes</a></li>
+<li><a href="status.pih">Status</a></li>
+</ul>
+<br>
+
+<%
+
+import Pyro.core
+import Pyro.naming
+import time
+
+NODE_KEY = "node_key"
+NID_KEY = "nid_key"
+NAME_KEY = "name_key"
+ATTRIBUTE_KEY = "attribute_key"
+ATTRIBUTE_VALUE_KEY = "attribute_value_key"
+STATEMENT_KEY = "statement_key"
+NID_DICT_KEY = "nid_dict_key"
+
+Pyro.config.PYRO_MOBILE_CODE = 1
+ia = Pyro.core.getProxyForURI("PYROLOC://localhost:9000/InterfaceAgent")
+
+languages = []
+languages.append(('en,en','174cb21-faebf9816f-2fe33ded3da5cbc81ea554f64a39be6f'))
+languages.append(('en-gb','38de7-e9be7c2084-5ee972e5a4cb21896e70c4d53b880b97'))
+languages.append(('nl-nl','38de7-e9be7c4a34-5ee972e5a4cb21896e70c4d53b880b97'))
+languages.append(('fr-fr','38de7-e9be7cd1f2-5ee972e5a4cb21896e70c4d53b880b97'))
+
+try:
+	language = _language
+	Session().language = language
+except:
+	try:
+		language = Session().language
+	except:
+		language = "38de7-e9be7c2084-5ee972e5a4cb21896e70c4d53b880b97"
+%>
+
+<form id="form_searchNode" action="search.pih">
+Language: <SELECT name='language'>
+<%
+for lan in languages:
+	if language == lan[1]:
+		print '<OPTION value="'+lan[1]+'" SELECTED>'+lan[0]
+	else:
+		print '<OPTION value="'+lan[1]+'">'+lan[0]
+%>
+</SELECT><br><br>
+<SELECT name='name_value'>
+<OPTION value='name'>Name
+<OPTION value='attvalue'>Attribute Value
+</SELECT>
+<input name="search_value">
+<input type="submit" value="Search node">
+</form>
+<%
+try:
+	nid = _nid
+except:
+	nid = ""
+
+if nid <> "":
+	data = ia.view_node(nid, language)
+	node = data[NODE_KEY]
+	print '<hr>',data,'<hr>'
+	count = len(node.statements)+len(node.attributes)+len(node.names)
+	print 'number of references',count
+
+	print "<hr>NID: "+node.nid+"<br><br>"
+	for name in node.names:
+		print "NAME: "+name[0]+" LANGUAGE: "
+		print '<a href="view.pih?nid='+str(name[1])+'&language='+language+'">'
+		print data[NID_DICT_KEY][name[1]]+'</a>'
+		print '<br>'
+	print "<hr>Statements:<br><br>"
+	for stat in node.statements:
+		print '<a href="view.pih?nid='+str(stat.predicate)+'&language='+language+'">'
+		print data[NID_DICT_KEY][str(stat.predicate)]+'</a> - '
+		print '<a href="view.pih?nid='+str(stat.object)+'&language='+language+'">'
+		print data[NID_DICT_KEY][str(stat.object)]+'</a>'
+		print "<br>"
+		for att in stat.attributes:
+			if data[NID_DICT_KEY].has_key(att.type):
+				print '&nbsp;&nbsp;&nbsp;<a href="view.pih?nid='+str(att.type)+'&language='+language+'">'
+				print data[NID_DICT_KEY][att.type]+'</a> - '
+				if data[NID_DICT_KEY].has_key(att.value) and data[NID_DICT_KEY][att.value] != 'Unknown':
+					print '<a href="view.pih?nid='+str(att.value)+'&language='+language+'">'
+					print data[NID_DICT_KEY][att.value]
+				else:
+					print att.value
+					pass
+			else:
+				if data[NID_DICT_KEY].has_key(att.value):
+					print "<font color='green'>Unknown type (" + att.type + ")" + '<a href="view.pih?nid='+str(att.value)+'&language='+language+'">'
+					print data[NID_DICT_KEY][att.value]+'</a>'
+					print "</font>"
+				else:
+					print "<font color='red'>Error level 1 " + att.value + "(" + att.type + ")" + "</font>"
+			print "<br>"
+			for att2 in att.attributes:
+				if data[NID_DICT_KEY].has_key(att2.type):
+					print '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view.pih?nid='+str(att2.type)+'&language='+language+'">'
+					print data[NID_DICT_KEY][att2.type]+'</a> - '
+					if data[NID_DICT_KEY].has_key(att2.value) and data[NID_DICT_KEY][att2.value] != 'Unknown':
+						print '<a href="view.pih?nid='+str(att2.value)+'&language='+language+'">'
+						print data[NID_DICT_KEY][att2.value]
+					else:
+						#print data[ATTRIBUTE_VALUE_KEY][att2.type]
+						print att2.value
+						pass
+				else:
+					print "<font color='red'>Error level 2 " + att2.type + "</font>"
+				print "<br>"
+
+	print "<hr>Attributes:<br><br>"
+	for att in node.attributes:
+		if data[NID_DICT_KEY].has_key(att.type):
+			print '<a href="view.pih?nid='+str(att.type)+'&language='+language+'">'
+			print data[NID_DICT_KEY][att.type]+'</a> - '
+			if data[NID_DICT_KEY].has_key(att.value) and data[NID_DICT_KEY][att.value] != 'Unknown':
+				print '<a href="view.pih?nid='+str(att.value)+'&language='+language+'">'
+				print data[NID_DICT_KEY][att.value]
+			else:
+				#print data[ATTRIBUTE_VALUE_KEY][att.type]
+				print att.value
+				pass
+		else:
+			print "<font color='red'>Error level 3 " + att.type + "</font>"
+		print "<br>"
+		for att2 in att.attributes:
+			if data[NID_DICT_KEY].has_key(att2.type):
+				print '&nbsp;&nbsp;&nbsp;<a href="view.pih?nid='+str(att2.type)+'&language='+language+'">'
+				print data[NID_DICT_KEY][att2.type]+'</a> - '
+			
+				if data[NID_DICT_KEY].has_key(att2.value) and data[NID_DICT_KEY][att2.value] != 'Unknown':
+					print '<a href="view.pih?nid='+str(att2.value)+'&language='+language+'">'
+					print data[NID_DICT_KEY][att2.value]
+				else:
+					#print data[ATTRIBUTE_VALUE_KEY][att2.type]
+					print att2.value
+					pass
+			else:
+				print "<font color='red'>Error level 4 " + att2.type + "</font>"
+			print "<br>"
+			for att3 in att2.attributes:
+				if data[NID_DICT_KEY].has_key(att3.type):
+					print '&nbsp;&nbsp;&nbsp;<a href="view.pih?nid='+str(att3.type)+'&language='+language+'">'
+					print data[NID_DICT_KEY][att3.type]+'</a> - '
+				
+					if data[NID_DICT_KEY].has_key(att3.value) and data[NID_DICT_KEY][att3.value] != 'Unknown':
+						print '<a href="view.pih?nid='+str(att3.value)+'&language='+language+'">'
+						print data[NID_DICT_KEY][att3.value]
+					else:
+						#print data[ATTRIBUTE_VALUE_KEY][att3.type]
+						print att3.value
+						pass
+				else:
+					print "<font color='red'>Error level 5 " + att3.type + "</font>"
+				print "<br>"
+		
+else:
+	print 'No nid supplied to view.'
+%>

@@ -1,0 +1,19 @@
+<head>
+    <title>IBAS Web Interface</title>
+    <link rel="stylesheet" type="text/css" HREF="ibas.css">
+</head>
+
+<img src='ibas.png'>
+
+<ul id="navigation">
+<li><a href="index.pih" id="current">Home</a></li>
+<li><a href="search.pih">Search Nodes</a></li>
+<li><a href="add.pih">Add Nodes</a></li>
+<li><a href="status.pih">Status</a></li>
+</ul>
+<br>
+What do you want to do?<br>
+<br>
+<a href="search.pih">Search for nodes</a><br>
+<a href="add.pih">Add nodes</a><br>
+<a href="status.pih">View status</a><br>

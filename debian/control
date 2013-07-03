@@ -1,0 +1,23 @@
+Source: spyse
+Section: python
+Priority: optional
+Maintainer: Thomas Hood <jdthood@yahoo.co.uk>
+Standards-Version: 3.6.2.1
+Build-Depends: python2.4-dev, debhelper (>= 4.1.68), python, cdbs (>= 0.4.0.1)
+
+Package: python-spyse
+Architecture: all
+Depends: ${python:Depends}
+Description: Smart Python Simulation Environment
+ Smart Python Simulation Environment
+ .
+ This is a dummy package that depends on the package
+ for the current default version of Python.
+
+Package: python2.4-spyse
+Architecture: all
+Depends: ${python:Depends}
+Description: Smart Python Simulation Environment
+ Smart Python Simulation Environment
+ .
+ This package is usable with python2.4

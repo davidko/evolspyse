@@ -1,0 +1,84 @@
+<%
+
+import xmlrpclib
+import time
+
+server = xmlrpclib.ServerProxy("http://localhost:8888")
+
+try:
+	lv_delAgentName = _DelAgentName
+except:
+	lv_delAgentName = ""
+
+if (lv_delAgentName <> ""):
+    ret_dum = server.deleteAgent(lv_delAgentName)
+
+try:
+	lv_newAgentName = _AgentName
+except:
+	lv_newAgentName = ""
+try:
+	lv_newAgentStatus = _AgentStatus
+except:
+	lv_newAgentStatus = ""
+
+if (lv_newAgentName <> "") and (lv_newAgentStatus <> ""):
+    ret_dum = server.appendAgentList(lv_newAgentName, lv_newAgentStatus)
+
+try:
+       lv_resetList = _resetList
+except:
+       lv_resetList = "0"
+      
+if (lv_resetList == "1"):
+    ret_dum = server.initAgentList()
+
+print "Current agent list is from:", time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
+SPYSE_AMS_AgentList = server.getAgents()
+
+%>
+
+<br>
+<br>
+<table border="1" cellpadding="3" cellspacing="0">
+	<th>Agent</th>
+	<th>Active</th>
+	<% for a in SPYSE_AMS_AgentList: %>
+		<tr>
+			<td> <% print a[0] %> </td>
+			<td> <% print a[1] %> </td>
+		</tr>
+	<% end %>
+</table>
+
+<br><br>
+
+    <form action="index.pih">
+      <input type="hidden" name="selected" value="0">
+      <input type="hidden" name="resetList" value="1">
+      <input type="submit" value="Reset agent list">
+    </form>
+
+    <form action="index.pih">
+      <input type="hidden" name="selected" value="0">
+      <input type="hidden" name="refreshList" value="1">
+      <input type="submit" value="Refresh agent list">
+    </form>
+    <br><br>
+    <form id="form_addAgent" action="index.pih">
+      Agent Name   <input name="AgentName">
+      <select name="AgentStatus">
+         <option value="">Choose a status ...</option>
+         <option value="True">True</option>
+         <option value="False">False</option>
+      </select>
+      <input type="hidden" name="selected" value="0">
+      <input type="submit" value="Add agent">
+    </form>
+    <br><br>
+    <form id="form_delAgent" action="index.pih">
+          Agent Name   <input name="DelAgentName">
+          <input type="hidden" name="selected" value="0">
+          <input type="submit" value="Delete agent">
+    </form>
+

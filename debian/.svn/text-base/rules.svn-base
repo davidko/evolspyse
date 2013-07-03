@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+# -*- mode: makefile; coding: utf-8 -*-
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/python-distutils.mk
+
+#clean::
+#	find -name '*.py[co]' -print0 | xargs -0 --no-run-if-empty rm -f --
+#
+#install/python2.4-dispatch::
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/docs
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/examples
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/debian
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/tests
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/license.txt
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/MANIFEST.in
+#	rm -rf debian/*/usr/lib/python2.4/site-packages/dispatch/PKG-INFO
+#
+#DEB_INSTALL_DOCS_ALL := 
+#DEB_DH_ALWAYS_EXCLUDE := .svn

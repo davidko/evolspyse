@@ -1,0 +1,37 @@
+                      Developer notes for spyse
+
+Style
+-----
+* Docstrings should follow PEP 257 (http://www.python.org/peps/pep-0257.html)
+* Layout should follow PEP8 (http://www.python.org/peps/pep-0008.html)
+  + 4 spaces per indentation level
+  + no tabs
+  + module name: lower case without underscores
+  + class name: 'CapWord'; private class name: '_CapWord';
+    exception class name: 'CapWordError'
+  + method/function name: lower case with underscores to separate name components
+  + ditto for global variable name
+  + instance method first argument: 'self'; class method first arg: 'cls'
+  + a variable name can have trailing underscore to avoid clash with reserved word
+  + a variable name can have one leading underscore to indicate privacy
+  + a variable name can have two leading underscores to prevent name clashes with
+    subclasses
+* Use properties where possible
+* Properties are implemented by calling the property function with the names of
+  the get and set functions. The latter names should begin with double underscore
+  unless the functions need to be overridden in descendent classes.
+
+
+Policy
+------
+* setup() functions should not call ancestor setup() functions
+
+Programming pitfalls
+--------------------
+* Creating a new mutable type per instance:
+  http://www.python.org/doc/2.3.4/tut/node6.html#SECTION006710000000000000000
+
+Pyro
+----
+Mostly we use Pyro proxies without attribute access support.  This means that
+remote access to attributes must be provided by means of getters and setters.

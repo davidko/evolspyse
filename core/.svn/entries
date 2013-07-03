@@ -1,0 +1,83 @@
+10
+
+dir
+273
+https://spyse.svn.sourceforge.net/svnroot/spyse/spyse/core
+https://spyse.svn.sourceforge.net/svnroot/spyse
+
+
+
+2006-12-05T17:17:32.309947Z
+266
+jdthood
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+f8390b8e-db0d-0410-94df-9a44eb8198a5
+
+agents
+dir
+
+mts
+dir
+
+platform
+dir
+
+protocols
+dir
+
+__init__.py
+file
+
+
+
+
+2009-11-18T13:57:49.960182Z
+396a7c55589032ef4e695905f6f1da70
+2006-06-11T19:58:51.463900Z
+1
+jdthood
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+545
+
+behaviours
+dir
+
+semant
+dir
+
+content
+dir
+

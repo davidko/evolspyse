@@ -1,0 +1,17 @@
+#navigation {padding: 3px 0; margin: 0;
+  border-bottom: 1px solid #778;
+  font: bold 12px Verdana, sans-serif;}
+#navigation li {list-style: none; margin: 0;
+  display: inline;}
+#navigation li a {padding: 3px 0.5em; margin-left: 3px;
+  border: 1px solid #778; border-bottom: none;
+  background: #DDE;
+  text-decoration: none;}
+#navigation li a:link {color: #448;}
+#navigation li a:visited {color: #667;}
+#navigation li a:hover {color: #000; background: #AAE;
+  border-color: #227;}
+#navigation li a#current {background: white; border-bottom: 1px solid white;}
+
+body {font: bold 10px Verdana, sans-serif}
+table {font: bold 10px Verdana, sans-serif}

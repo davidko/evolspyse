@@ -1,0 +1,53 @@
+<head>
+    <title>IBAS Web Interface</title>
+    <link rel="stylesheet" type="text/css" HREF="ibas.css">
+</head>
+<img src='ibas.png'>
+
+<ul id="navigation">
+<li><a href="index.pih">Home</a></li>
+<li><a href="search.pih">Search Nodes</a></li>
+<li><a href="add.pih">Add Nodes</a></li>
+<li><a href="status.pih" id="current">Status</a></li>
+</ul>
+
+<%
+import Pyro.core
+import Pyro.naming
+
+def sort_func(x,y):
+	return cmp(y[1],x[1])
+
+ia = Pyro.core.getProxyForURI("PYROLOC://localhost:9000/InterfaceAgent")
+
+print '<br>'
+#print 'Number of registered agents:',ia.get_agent_count()
+print 'Container info:<br>'
+print '<table border="1">'
+print '<tr><th>Pyroloc</th><th># Agents</th><th>Running</th></tr>'
+infos = ia.get_containers_info()
+for info in infos:
+	print '<tr>'
+	print '<td>',info[0],'</td><td>',info[1],'</td><td>',info[2],'</td>'
+	print '</tr>'
+print '</table>'
+print '<br><br>'
+print 'Top 50 of most requested IBA Agents:<br><br>'
+print '<table border="1">'
+print '<tr><th>Agent NID</th><th># Requests</th></tr>'
+num_requests = ia.get_num_requests()
+#print num_requests
+for i in range(50):
+	if i < len(num_requests):
+		print '<tr>'
+		print '<td>',num_requests[i][0],'</td><td>',num_requests[i][1],'</td>'
+		print '</tr>'
+print '</table>'
+
+print '<br><br>'
+print 'Logger Messages:<br>'
+log = ia.get_log()
+for m in log:
+	print m,'<br>'
+
+%>

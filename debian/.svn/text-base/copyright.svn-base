@@ -1,0 +1,30 @@
+Spyse is a framework for developing multi-agent systems in compliance
+with the FIPA and Semantic Web specifications.
+
+This package was debianized by Thomas Hood <jdthood@yahoo.co.uk> on
+Mon 06 Feb 2006 02:14:18 PM CET
+
+It was originally downloaded from http://sourceforge.net/projects/spyse .
+
+Spyse license
+-------------
+
+Copyright (C) 2004-2006 Andre P. Meyer and others
+
+GNU Lesser General Public License
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation, 
+version 2.1 of the License. 
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the
+Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+Boston, MA 02110-1301, USA.
+

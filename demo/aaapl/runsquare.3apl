@@ -1,0 +1,238 @@
+PROGRAM "robot"
+
+
+CAPABILITIES:
+
+    { sensorRange(r0,R), grootte(N), is(Z,N + R) }
+        Increasegrootte()
+    { NOT grootte(N), grootte(Z) }, 
+    
+
+    { robot(r0, X, Y), is(Z,X - 1), NOT occupied(r0, Z, Y) } 
+        West()
+    { NOT robot(r0,X,Y), robot(r0, X - 1, Y) },
+    
+
+    { robot(r0, X, Y), is(Z,X+1), NOT occupied(r0, Z, Y) } 
+        East()
+    { NOT robot(r0,X,Y), robot(r0, X + 1, Y) },
+    
+
+    { robot(r0, X, Y), is(Z,Y - 1), NOT occupied(r0, X,Z) } 
+        North()
+    { NOT robot(r0,X,Y), robot(r0, X, Y - 1) },
+    
+    
+    { robot(r0, X, Y), is(Z,Y+1), NOT occupied(r0, X, Z) } 
+        South()
+    { NOT robot(r0,X,Y), robot(r0, X, Y+1) },
+
+
+    { bomb(r0, X, Y), robot(r0, X, Y) }
+        Pickup()
+    { carriesBomb(r0), NOT bomb(r0, X, Y) },
+    
+
+    { carriesBomb(r0), robot(r0, X, Y) }
+        Drop()
+    { NOT carriesBomb(r0), bomb(r0, X, Y) },
+        
+
+    { bomb(r0,X,Y), carriesBomb(r0), NOT believeBomb(r0,X,Y) }
+        TellBombFound(R,X,Y)
+    { messageAdd(R,X,Y) },
+    
+    
+    { robot(r0,X,Y), believeBomb(r0,X,Y) } 
+        TellBombRemoved(R,X,Y)
+    { messageDel(R,X,Y) },
+    
+
+    { messageAdd(r0,X,Y), NOT believeBomb(r0,X,Y) }
+        RememberBomb(r0,X,Y)
+    { NOT messageAdd(r0,X,Y), believeBomb(r0,X,Y) },
+    
+
+    { messageDel(r0,X,Y), believeBomb(r0,X,Y) }
+        ForgetBomb(r0,X,Y)
+    { NOT messageDel(r0,X,Y), NOT believeBomb(r0,X,Y) },
+    
+    
+    { messageAdd(r0,X,Y), believeBomb(r0,X,Y) }
+        DelMessage(r0,X,Y)
+    { NOT messageAdd(r0,X,Y)}
+    
+    
+
+BELIEFBASE:
+
+    robot(r0, 1, 1).
+    sensorRange(r0,4).
+    grootte(1).
+
+GOALBASE:
+
+    cleanupBombs()
+    
+RULEBASE:
+
+    goto(X, Y) <- robot(r0, X0, Y0) |
+        IF X = X0 AND Y = Y0 
+        THEN SKIP
+        ELSE 
+            BEGIN 
+                IF X < X0 
+                THEN West()
+                ELSE
+                    IF X0 < X 
+                    THEN East()
+                    ELSE 
+                        IF Y < Y0 
+                        THEN North()
+                        ELSE 
+                            IF Y0 < Y 
+                            THEN South();
+                listen();
+                IF bomb(r0,U,V) AND carriesBomb(r0) AND NOT believeBomb(r0,U,V) 
+                THEN messageBelieveBomb(U,V);
+                goto(X, Y)
+            END,
+
+            
+    findbomb(r0, X, Y) <- robot(r0, X0, Y0) AND bomb(r0, X,Y) OR believeBomb(r0,X,Y) |
+        IF X = X0 AND Y = Y0 
+        THEN SKIP
+        ELSE 
+            BEGIN 
+                IF X < X0 
+                THEN West()
+                ELSE 
+                    IF X0 < X 
+                    THEN East()
+                    ELSE 
+                        IF Y < Y0 
+                        THEN North()
+                        ELSE 
+                            IF Y0 < Y 
+                            THEN South();
+                listen();
+                IF nearestBomb(r0,U,V) 
+                THEN findbomb(r0,U,V)
+            END,
+            
+    
+    cleanupBombs() <- TRUE |
+        IF nearestBomb(r0, X, Y) 
+        THEN
+            BEGIN
+                findbomb(r0, X, Y);
+                IF NOT nearestBomb(r0,X,Y) 
+                THEN cleanupBombs();
+                Pickup();
+                IF believeBomb(r0,X,Y) 
+                THEN messageForgetBomb(X,Y);
+                goto(0, 0);
+                Drop();
+                cleanupBombs()
+            END
+        ELSE 
+            IF believeBomb(r0,X,Y) AND NOT nearestBomb(r0, U, V)
+            THEN findbomb(r0,X,Y)
+            ELSE
+                BEGIN
+                    exploreStrategy();
+                    cleanupBombs()
+            END,
+
+
+    exploreStrategy() <- TRUE |
+        BEGIN
+            IF nearestBomb(r0,U,V) 
+            THEN SKIP 
+            ELSE goEast();
+            IF nearestBomb(r0,U,V) 
+            THEN SKIP 
+            ELSE goSouth();
+            IF nearestBomb(r0,U,V) 
+            THEN SKIP 
+            ELSE goWest();
+            IF nearestBomb(r0,U,V) 
+            THEN SKIP 
+            ELSE goNorth();
+            Increasegrootte()
+        END,
+
+
+
+    goEast() <- grootte(N) |
+        IF robot(r0,N,X) OR nearestBomb(r0,U,V) 
+        THEN SKIP
+        ELSE
+            BEGIN
+                East();
+                listen();
+                goEast()
+            END,
+
+    goSouth() <- grootte(N) |
+        IF robot(r0,X,N) OR nearestBomb(r0,U,V) 
+        THEN SKIP
+        ELSE
+            BEGIN
+                South();
+                listen();
+                goSouth()
+            END,
+
+    goWest() <- grootte(N) |
+        IF robot(r0,0,X) OR nearestBomb(r0,U,V) 
+        THEN SKIP
+        ELSE                        
+            BEGIN
+                West();
+                listen();
+                goWest()
+            END,
+
+    goNorth() <- grootte(N) |
+        IF robot(r0,X,0) OR nearestBomb(r0,U,V) 
+        THEN SKIP
+        ELSE
+            BEGIN
+                North();
+                listen();
+                goNorth()
+            END,
+
+                        
+
+    messageBelieveBomb(U,V) <- robot(r0,X,Y) |
+        TellBombFound(r1,U,V), 
+
+    
+    messageForgetBomb(X,Y) <- robot(r0,X,Y) AND NOT bomb(r0,X,Y) |
+        TellBombRemoved(r1,X,Y),
+
+        
+    listen() <- TRUE |
+        IF messageAdd(r0,U1,V1) AND NOT believeBomb(r0,U1,V1) 
+        THEN
+            BEGIN
+                RememberBomb(r0,U1,V1);
+                listen()
+            END
+        ELSE 
+            IF messageAdd(r0,U1,V1) AND believeBomb(r0,U1,V1) 
+            THEN
+                BEGIN
+                    DelMessage(r0,U1,V1);
+                    listen()
+                END
+            ELSE 
+                IF messageDel(r0,U2,V2) AND believeBomb(r0,U2,V2) 
+                THEN
+                    BEGIN
+                        ForgetBomb(r0,U2,V2);
+                        listen() 
+                    END
+                ELSE SKIP,

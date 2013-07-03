@@ -1,0 +1,50 @@
+<head>
+    <title>IBAS Web Interface</title>
+    <link rel="stylesheet" type="text/css" HREF="ibas.css">
+</head>
+<img src='ibas.png'>
+
+<ul id="navigation">
+<li><a href="index.pih">Home</a></li>
+<li><a href="search.pih">Search Nodes</a></li>
+<li><a href="add.pih" id="current">Add Nodes</a></li>
+<li><a href="status.pih">Status</a></li>
+</ul>
+<br>
+<%
+
+import Pyro.core
+import Pyro.naming
+
+ia = Pyro.core.getProxyForURI("PYROLOC://localhost:9000/InterfaceAgent")
+%>
+
+
+
+<form id="form_addNode" action="add.pih">
+	Please specify a XML or ZIP file:<br>
+	<input type="file" name="datafile" size="40">
+	<input type="submit" value="add node(s)">
+</form>
+<br>
+<form id="form_addNode" action="add.pih">
+	Please specify a NID:<br>
+	<input type="text" name="datafile" size="40">
+	<input type="submit" value="add node">
+</form>
+
+<%
+try:
+	datafile = _datafile
+except:
+	datafile = ""
+
+if datafile <> "":
+	datafile=datafile.replace('\\','/')
+	#print 'datafile2:',datafile+'<br>'
+	res=ia.add_node(datafile)
+	for l in res:
+		print l+'<br>'
+	
+
+%>

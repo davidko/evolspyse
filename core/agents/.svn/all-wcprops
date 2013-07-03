@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/spyse/!svn/ver/247/spyse/core/agents
+END
+aid.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/spyse/!svn/ver/234/spyse/core/agents/aid.py
+END
+tkagent.py
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/spyse/!svn/ver/236/spyse/core/agents/tkagent.py
+END
+ui.py
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/spyse/!svn/ver/3/spyse/core/agents/ui.py
+END
+wxagent.py
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/spyse/!svn/ver/247/spyse/core/agents/wxagent.py
+END
+agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/spyse/!svn/ver/233/spyse/core/agents/agent.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/spyse/!svn/ver/3/spyse/core/agents/__init__.py
+END

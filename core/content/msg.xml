@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!DOCTYPE fipa-message
+  PUBLIC 'FIPA ACL Message Representation in XML'
+  'fipa.acl.rep.xml.std.dtd'>
+<fipa-message act="request" conversation-id="cid10764734841121888591.48">
+	<conversation-id>
+		cid10764734841121888591.48
+	</conversation-id>
+	<sender>
+		<agent-identifier>
+			<name id="meyer:python.openspace.nl:9000"/>
+			<addresses>
+				<url href="iiop://foo.com/acc"/>
+			</addresses>
+		</agent-identifier>
+	</sender>
+	<receiver>
+		<agent-identifier>
+			<name id="neef:python.openspace.nl:9000"/>
+			<addresses>
+				<url href="iiop://foo.com/acc"/>
+			</addresses>
+		</agent-identifier>
+	</receiver>
+	<reply-to>
+		<agent-identifier>
+			<name refid="meyer:python.openspace.nl:9000"/>
+			<addresses>
+				<url href="iiop://foo.com/acc"/>
+			</addresses>
+		</agent-identifier>
+	</reply-to>
+	<content>
+		42
+	</content>
+	<language>
+		FIPA ACL
+	</language>
+	<encoding>
+		RDF
+	</encoding>
+	<ontology>
+		spyse-onto
+	</ontology>
+	<protocol>
+		contract-net
+	</protocol>
+	<reply-with>
+		propose
+	</reply-with>
+	<in-reply-to>
+		007
+	</in-reply-to>
+	<reply-by time="23:59"/>
+</fipa-message>

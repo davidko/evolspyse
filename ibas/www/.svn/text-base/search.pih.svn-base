@@ -1,0 +1,81 @@
+<head>
+    <title>IBAS Web Interface</title>
+    <link rel="stylesheet" type="text/css" HREF="ibas.css">
+</head>
+<img src='ibas.png'>
+
+<ul id="navigation">
+<li><a href="index.pih">Home</a></li>
+<li><a href="search.pih" id="current">Search Nodes</a></li>
+<li><a href="add.pih">Add Nodes</a></li>
+<li><a href="status.pih">Status</a></li>
+</ul>
+<br>
+
+<%
+
+import Pyro.core
+import Pyro.naming
+
+ia = Pyro.core.getProxyForURI("PYROLOC://localhost:9000/InterfaceAgent")
+
+languages = []
+languages.append(('en,en','174cb21-faebf9816f-2fe33ded3da5cbc81ea554f64a39be6f'))
+languages.append(('en-gb','38de7-e9be7c2084-5ee972e5a4cb21896e70c4d53b880b97'))
+languages.append(('nl-nl','38de7-e9be7c4a34-5ee972e5a4cb21896e70c4d53b880b97'))
+languages.append(('fr-fr','38de7-e9be7cd1f2-5ee972e5a4cb21896e70c4d53b880b97'))
+
+try:
+	language = _language
+	Session().language = language
+except:
+	try:
+		language = Session().language
+	except:
+		language = "38de7-e9be7c2084-5ee972e5a4cb21896e70c4d53b880b97"
+%>
+
+<form id="form_searchNode" action="search.pih">
+Language: <SELECT name='language'>
+<%
+for lan in languages:
+	if language == lan[1]:
+		print '<OPTION value="'+lan[1]+'" SELECTED>'+lan[0]
+	else:
+		print '<OPTION value="'+lan[1]+'">'+lan[0]
+%>
+</SELECT><br><br>
+<SELECT name='name_value'>
+<OPTION value='name'>Name
+<OPTION value='attvalue'>Attribute Value
+</SELECT>
+<input name="search_value">
+<input type="submit" value="Search node">
+</form>
+
+<%
+try:
+	name_value = _name_value
+	search_value = _search_value
+except:
+	name_value = ""
+	search_value = ""
+	
+	
+if search_value <> "":
+	if name_value == "name":
+		nids = ia.search_node_by_name(search_value)
+	else:
+		nids = ia.search_node_by_attribute("",search_value)
+		
+	if len(nids) > 0:
+		print len(nids),'result(s) found.<br><br>'
+		for nid in nids:
+			name = ia.get_nid_name(nid,language)
+			print name
+			print ' <a href="view.pih?nid='+str(nid)+'&language='+language+'">View</a> '
+			print '<a href="remove.pih?nid='+str(nid)+'">Remove</a><br>'
+	else:
+		print search_value,'could not be found'
+
+%>

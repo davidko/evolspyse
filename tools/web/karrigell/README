@@ -1,0 +1,35 @@
+                                        README
+                                          for
+                             Karrigell-based web interface
+                                          to
+                                    Spyse platorm
+
+This web interface to the spyse agent platform uses the Karrigell webserver.
+
+Actual upload of the files awaits licensing clearance.
+
+Debian GNU/Linux
+================
+* Install the Debian (or Ubuntu) karrigell package
+
+* Now fix bugs in the package.  The following bugs were found in version 2.2.1-1.
+
+  + In /etc/init.d/karrigell change "test -x $DAEMON" to "test -f $DAEMON"
+  + In /etc/init.d/karrigell change "--exec $DAEMON -- $DAEMON_OPTS" to "--exec /usr/bin/python -- $DAEMON $DAEMON_OPTS"
+  + In the stop method, append "|| :" to "start-stop-daemon --stop --pidfile /var/run/$NAME.pid"
+
+* Copy these files to /var/lib/karrigell/:
+
+    index.pih  k_base.css  k_tabs.hip  tabsA.pih  tabsB.pih  tabsC.pih
+
+* Start the spyse platform.  For now this means: start the spyse_emul program.
+
+    python spyse_emul.py
+
+* Start (as root) the webserver
+
+    /etc/init.d/karrigell start
+
+* In a web browser call up the webpage at http://localhost:8080
+
+You should now see a web page showing the states of the agents running on the (simulated) spyse platform.

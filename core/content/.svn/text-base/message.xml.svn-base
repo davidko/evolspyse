@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fipa-message SYSTEM "fipa.acl.rep.xml.std.dtd">
+<fipa-message act="request" conversation-id="double0seven">
+	<sender><agent-identifier><name id="Bond"/></agent-identifier></sender>
+	<receiver>
+		<agent-identifier><name refid="Bond"/></agent-identifier>
+		<agent-identifier>
+			<name id="Q"/>
+			<addresses>
+				<url href="Q@spyse.sf.net"/>
+			</addresses>
+			<resolvers>
+				<agent-identifier>
+					<name id="M"/>
+				</agent-identifier>
+			</resolvers>
+			<user-defined> whatever
+			</user-defined>
+		</agent-identifier>
+	</receiver>
+	<content href="">some rdf encoded message content</content>
+	<language href="">FIPA ACL</language>
+	<encoding href="">RDF</encoding>
+	<ontology href="http://spyse.sf.net/onto.rdf">spyse basic ontology</ontology>
+	<protocol href="">dutch-auction</protocol>
+	<reply-with href="">something</reply-with>
+	<in-reply-to href="">something</in-reply-to>
+	<reply-by time="12:00"/>
+	<reply-to>
+		<agent-identifier><name refid="Bond"/></agent-identifier>
+	</reply-to>
+	<conversation-id href="">007</conversation-id>
+	<user-defined href="">007</user-defined>
+</fipa-message>

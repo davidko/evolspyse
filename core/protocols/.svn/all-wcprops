@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/spyse/!svn/ver/257/spyse/core/protocols
+END
+request.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/spyse/!svn/ver/257/spyse/core/protocols/request.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/spyse/!svn/ver/3/spyse/core/protocols/__init__.py
+END
+contractnet.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/spyse/!svn/ver/257/spyse/core/protocols/contractnet.py
+END
+protocols.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/spyse/!svn/ver/3/spyse/core/protocols/protocols.py
+END
+subscription.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/spyse/!svn/ver/257/spyse/core/protocols/subscription.py
+END

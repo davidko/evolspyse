@@ -1,0 +1,10 @@
+include MANIFEST.in
+include license.html
+include *.py
+include *.gif
+include *.png
+include *.zpt
+include *.xml
+
+global-exclude ./CVS
+global-exclude .cvsignore
