@@ -104,16 +104,16 @@ class Platform(object):
         cls.mts.pyrouri = mts_pyrouri
         print "-- Platform", myname, "has created the Message Transport System"
 
-        cls.ams = AMS(cls.nameserver, myhap, cls.mts, threadmeth, poolsize)
-        uri = cls.daemon.register(cls.ams, pyroloc+'/ams')
+        cls.ams = AMS(cls.daemon, cls.nameserver, myhap, cls.mts, threadmeth, poolsize)
+        #uri = cls.daemon.register(cls.ams, pyroloc+'/ams')
         cls.ams.aid.add_address(mts_pyrouri)
         cls.ams.init_dist(dist)
         print "-- Platform", myname, "has started the Agent Management System agent"
         cls.mts.ams = cls.ams       
         print "-- Platform", myname, "has registered the AMS with the MTS"
 
-        cls.ams.start_agent(DF, name='DF', nameserver=cls.nameserver)
-        df_uri = cls.daemon.register(cls.ams.get_agent('DF'), pyroloc+'/df')
+        cls.ams.start_agent(DF, name='DF', daemon = cls.daemon, nameserver=cls.nameserver)
+        #df_uri = cls.daemon.register(cls.ams.get_agent('DF'), pyroloc+'/df')
         cls.ams.get_agent('DF').init_dist(dist)
         print "-- Platform", myname, "has started the Directory Facilitator agent"
 
@@ -121,10 +121,8 @@ class Platform(object):
             dist = Dist.NONE
             env = 'normal'
         else:
-            # Add mts, ams, and df URIs to name server
+            # Add mts URI to name server
             cls.nameserver.register('spyse:'+myname+'/mts', mts_pyrouri)
-            cls.nameserver.register('spyse:'+myname+'/ams', uri)
-            cls.nameserver.register('spyse:'+myname+'/df', df_uri)
 
         Thread(target = cls.daemon.requestLoop, kwargs={'loopCondition': self.is_running}).start()
 

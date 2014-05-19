@@ -1,4 +1,30 @@
-"""Spyse app module"""
+"""Spyse app module
+Command Line Options:
+-h: Display this help
+--distribution, --dist: Change the distribution mode for registering agents
+    to local and remote AMSes. Valid options are:
+        broadcast-update: Update all other AMSes when new agents are added
+        broadcast-retrieve: Try and get lists of agents at remote AMSes when
+            searching for them
+        client: AMS will consult a server when the agent cannot be found 
+            locally
+        server: AMS will act as a global server for agent registration
+
+--env : Unknown
+
+--poolsize
+
+-p, --port : Local port
+
+--ns: Can be one of:
+    start : Start local name-server
+    local: 
+    remote:
+    <hostname>: Find and bind to nameserver at <hostname>
+
+--threading
+
+"""
 
 import os
 import sys
@@ -38,12 +64,12 @@ class App(object):
         except getopt.error, msg:
             print msg
             print "for help use --help"
-            return 2
+            return 
         if not opts is None:
             for o, a in opts:
                 if o in ("-h", "--help"):
                     print __doc__
-                    return 0
+                    return 
                 elif o in ("--distribution", "--dist"):
                     distribution = a
                 elif o in ("--env"):

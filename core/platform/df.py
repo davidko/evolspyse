@@ -45,8 +45,9 @@ class DF(Agent):
     __service_key = 'service'
     __providers_key = 'providers'
 
-    def __init__(self, name, mts, nameserver):
+    def __init__(self, name, mts, daemon, nameserver):
         super(DF, self).__init__(name, mts)
+        self.daemon = daemon
         self.__nameserver = nameserver
  
         # __registry = { title: { service: s, providers: [pp] } }
@@ -79,7 +80,7 @@ class DF(Agent):
             self.unregister_service = self.__unregister_service_basic
             self.find_service = self.__find_service_basic
             self.find_service_providers = self.__find_service_providers_basic
-            self.daemon.connect(self, DF.PYRONAME)
+            self.daemon.register(self, DF.PYRONAME)
         elif dist == Dist.CENTRAL_CLIENT:
             self.register_service = self.__register_service_client
             self.unregister_service = self.__unregister_service_client
