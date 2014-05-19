@@ -1,2 +1,0 @@
-"""Spyse agents package"""
-

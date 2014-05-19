@@ -84,13 +84,10 @@ class Platform(object):
             # Remote Pyro4 mode
             if ns_host is None:
                 print 'Trying to find a remote nameserver.'
-                Pyro4.config.PYRO_NS_HOSTNAME = ''
             else:
                 print 'Trying to find a nameserver at', ns_host + '.'
-                Pyro4.config.PYRO_NS_HOSTNAME = ns_host
             try:
-                nslocator = Pyro4.naming.NameServerLocator()
-                cls.nameserver = nslocator.getNS()
+                cls.nameserver = Pyro4.locateNS(ns_host)
             except Pyro4.errors.PyroError:
                 print "No nameserver could be found. Exiting."
                 return
@@ -101,25 +98,6 @@ class Platform(object):
 
         spyse.core.semant.environment.nameserver = cls.nameserver
 
-        if nsmode == NsMode.NONE:
-            dist = Dist.NONE
-            env = 'normal'
-        else:
-            cls.daemon.useNameServer(cls.nameserver)
-            try:
-                cls.nameserver.createGroup(pyrogroup)
-            except PyroNamingError:
-                # Happens if the name already exists
-                pass        
-            Pyro4.config.PYRO_NS_DEFAULTGROUP = pyrogroup
-            try:
-                remote_hap = Pyro4.core.getAttrProxyForURI("PYRONAME://HAP")
-            except:
-                # Happens if the 'HAP' not yet registered
-                # FIXME: There appears to be a race here
-                pass
-            else:
-                myhap = HAP(remote_hap.name)
 
         cls.mts = MTS(hap=myhap)
         mts_pyrouri = cls.daemon.register(cls.mts, pyroloc+'/mts')
@@ -135,9 +113,18 @@ class Platform(object):
         print "-- Platform", myname, "has registered the AMS with the MTS"
 
         cls.ams.start_agent(DF, name='DF', nameserver=cls.nameserver)
-        cls.daemon.register(cls.ams.get_agent('DF'), pyroloc+'/df')
+        df_uri = cls.daemon.register(cls.ams.get_agent('DF'), pyroloc+'/df')
         cls.ams.get_agent('DF').init_dist(dist)
         print "-- Platform", myname, "has started the Directory Facilitator agent"
+
+        if nsmode == NsMode.NONE:
+            dist = Dist.NONE
+            env = 'normal'
+        else:
+            # Add mts, ams, and df URIs to name server
+            cls.nameserver.register('spyse:'+myname+'/mts', mts_pyrouri)
+            cls.nameserver.register('spyse:'+myname+'/ams', uri)
+            cls.nameserver.register('spyse:'+myname+'/df', df_uri)
 
         Thread(target = cls.daemon.requestLoop, kwargs={'loopCondition': self.is_running}).start()
 

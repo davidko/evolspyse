@@ -1,2 +1,0 @@
-"""Spyse content package"""
-
