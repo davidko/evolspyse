@@ -143,43 +143,28 @@ class AMS(Agent):
             self.find_agent = self.__find_agent_basic
             # We should still register the ams to the name server
             # if possible, in case agents are interested in finding amses
-            uri = self.daemon.register(self)
-            try:
-                self.__nameserver.register('spyse:'+hap.name+'/ams', uri)
-            except:
-                pass
+            self.__register_to_nameserver()
         elif dist == Dist.BCAST_UPDATE:
             self.register_agent = self.__register_agent_update
             self.unregister_agent = self.__unregister_agent_update
             self.find_agent = self.__find_agent_basic
-            uri = self.daemon.register(self)
-            try:
-                self.__nameserver.register('spyse:'+hap.name+'/ams', uri)
-            except:
-                pass
+            self.__register_to_nameserver()
         elif dist == Dist.BCAST_RETRIEVE:
             self.register_agent = self.__register_agent_retrieve
             self.unregister_agent = self.__unregister_agent_retrieve
             self.find_agent = self.__find_agent_retrieve
-            uri = self.daemon.register(self)
-            try:
-                self.__nameserver.register('spyse:'+hap.name+'/ams', uri)
-            except:
-                pass
+            self.__register_to_nameserver()
         elif dist == Dist.CENTRAL_SERVER:
             self.register_agent = self.__register_agent_basic
             self.unregister_agent = self.__unregister_agent_basic
             self.find_agent = self.__find_agent_basic
-            uri = self.daemon.register(self, AMS.PYRONAME)
-            try:
-                self.__nameserver.register(AMS.PYRONAME, uri)
-            except:
-                pass
+            self.__register_to_nameserver(AMS.PYRONAME)
         elif dist == Dist.CENTRAL_CLIENT:
             self.register_agent = self.__register_agent_client
             self.unregister_agent = self.__unregister_agent_client
             self.find_agent = self.__find_agent_client
             self.__ams_server = self.__find_server()
+            self.__register_to_nameserver()
         else:
             raise ValueError("Unrecognized dist")
 
@@ -212,6 +197,15 @@ class AMS(Agent):
         for key, obj in objs.items():
             others.add(Pyro4.Proxy(obj))
         return others
+
+    def __register_to_nameserver(self, name=None):
+        uri = self.daemon.register(self)
+        if name is None:
+            name = 'spyse:'+self.__hap.name+'/ams'
+        try:
+            self.__nameserver.register(name, uri)
+        except:
+            pass
 
 # Commented out because unused
 #    def find_other(self):

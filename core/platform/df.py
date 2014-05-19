@@ -45,10 +45,11 @@ class DF(Agent):
     __service_key = 'service'
     __providers_key = 'providers'
 
-    def __init__(self, name, mts, daemon, nameserver):
+    def __init__(self, name, mts, daemon, nameserver, hap):
         super(DF, self).__init__(name, mts)
         self.daemon = daemon
         self.__nameserver = nameserver
+        self.__hap = hap
  
         # __registry = { title: { service: s, providers: [pp] } }
         # TODO: should enable search for service by template (Service) not just title
@@ -65,28 +66,33 @@ class DF(Agent):
             self.unregister_service = self.__unregister_service_basic
             self.find_service = self.__find_service_basic
             self.find_service_providers = self.__find_service_providers_basic
+            self.__register_to_nameserver()
         elif dist == Dist.BCAST_UPDATE:
             self.register_service = self.__register_service_update
             self.unregister_service = self.__unregister_service_update
             self.find_service = self.__find_service_basic
             self.find_service_providers = self.__find_service_providers_basic
+            self.__register_to_nameserver()
         elif dist == Dist.BCAST_RETRIEVE:
             self.register_service = self.__register_service_basic
             self.unregister_service = self.__unregister_service_basic
             self.find_service = self.__find_service_retrieve
             self.find_service_providers = self.__find_service_providers_retrieve
+            self.__register_to_nameserver()
         elif dist == Dist.CENTRAL_SERVER:
             self.register_service = self.__register_service_basic
             self.unregister_service = self.__unregister_service_basic
             self.find_service = self.__find_service_basic
             self.find_service_providers = self.__find_service_providers_basic
-            self.daemon.register(self, DF.PYRONAME)
+            self.__register_to_nameserver(DF.PYRONAME)
         elif dist == Dist.CENTRAL_CLIENT:
             self.register_service = self.__register_service_client
             self.unregister_service = self.__unregister_service_client
             self.find_service = self.__find_service_client
             self.find_service_providers = self.__find_service_providers_client
-            self.__df_server = Pyro4.core.getProxyForURI('PYRONAME://' + DF.PYRONAME)
+            #self.__df_server = Pyro4.core.getProxyForURI('PYRONAME://' + DF.PYRONAME)
+            self.__register_to_nameserver(DF.PYRONAME)
+            self.__df_server = self.__find_server()
         else:
             raise Exception("Unrecognized dist")
 
@@ -111,6 +117,10 @@ class DF(Agent):
 #                prox = self.__nameserver.resolve(obj[0]).getProxy()
 #                if prox.objectID != self.objectGUID:
 #                    return prox
+
+    def __find_server(self):
+        uri = self.__nameserver.lookup(DF.PYRONAME)
+        return Pyro4.Proxy(uri)
     
     def __find_others(self):
         """Find all other DF instances
@@ -125,6 +135,15 @@ class DF(Agent):
                     others.add(prox)
         return others
     
+    def __register_to_nameserver(self, name=None):
+        uri = self.daemon.register(self)
+        if name is None:
+            name = 'spyse:'+self.__hap.name+'/df'
+        try:
+            self.__nameserver.register(name, uri)
+        except:
+            pass
+
     def add_other(self, other):
         """Add a reference to another DF instance.
            (Called by another DF that wishes to publish itself to this DF.)

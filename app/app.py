@@ -32,8 +32,7 @@ import getopt
 import time
 from threading import Thread
 
-import Pyro4.naming
-import Pyro4.nsc
+import Pyro4
 
 from spyse.core.platform.constants import Dist, NsMode, ThreadMeth
 from spyse.core.platform.platform import Platform

@@ -112,7 +112,8 @@ class Platform(object):
         cls.mts.ams = cls.ams       
         print "-- Platform", myname, "has registered the AMS with the MTS"
 
-        cls.ams.start_agent(DF, name='DF', daemon = cls.daemon, nameserver=cls.nameserver)
+        cls.ams.start_agent(DF, name='DF', daemon = cls.daemon,
+        nameserver=cls.nameserver, hap=myhap)
         #df_uri = cls.daemon.register(cls.ams.get_agent('DF'), pyroloc+'/df')
         cls.ams.get_agent('DF').init_dist(dist)
         print "-- Platform", myname, "has started the Directory Facilitator agent"
