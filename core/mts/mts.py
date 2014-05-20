@@ -12,10 +12,11 @@ from spyse.core.content.content import ACLMessage
 
 class MTS():
 
-    def __init__(self, hap):
+    def __init__(self, hap, nameserver):
         self.hap = hap
         self.pyrouri = None  # Gets set by platform
         self.ams = None      # Gets set by platform
+        self.__nameserver = nameserver
 
     def send(self, sender, msg):
         """Send message"""
@@ -54,10 +55,15 @@ class MTS():
         else:
             # Remote delivery
             new_msg.sender.hap = self.hap
-            mts_string = "PYROLOC://" + rec_hap.name + "/" + rec_hap.name.replace(".","+") + "/mts"
 
             try:
-                remote_mts = Pyro4.core.getProxyForURI(mts_string)
+                if rec_hap.ns_lookup:
+                    print('Looking up ns name: {0}'.format(rec_hap.name))
+                    uri = self.__nameserver.lookup(rec_hap.name)
+                else:
+                    uri = "PYRO:" + "mts@" + rec_hap.name 
+                    print('URI : {0}'.format(uri))
+                remote_mts = Pyro4.Proxy(uri)
                 try:
                     return remote_mts._receive_global_msg(new_msg)
                 except Exception, e:
@@ -67,8 +73,8 @@ class MTS():
                 print 'Could not deliver message to', rec.name + ': error with remote MTS.'
                 print errmsg
                 return False
-            except:
-                print 'Could not deliver message to', rec.name + ': unknown error'
+            except Exception as e:
+                print 'Could not deliver message to', rec.name + ': ' + str(e)
                 return False
 
     def __receive(self, msg):
@@ -78,7 +84,7 @@ class MTS():
                 agent.receive_message(copy.deepcopy(msg.encode_ACL()))
                 return True
             else:
-                print 'MTS: Could not find receiving agent', rec.name
+                print 'MTS: Could not find receiving agent', rec.shortname
                 return False
 
     def _receive_global_msg(self, msg):

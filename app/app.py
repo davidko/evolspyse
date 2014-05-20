@@ -121,9 +121,10 @@ class App(object):
 
         if start_ns:
             print 'Starting a Pyro nameserver'
-            self.__nsstarter = Pyro4.naming.NameServerStarter()
-            Thread(target = self.__nsstarter.start, kwargs={'allowmultiple': 1}).start()
-            self.__nsstarter.waitUntilStarted(timeout=10)
+            (ns_uri, ns_daemon, bcast_server) = Pyro4.naming.startNS()
+            self.ns_daemon = ns_daemon
+            self.ns_thread = Thread(target=ns_daemon.requestLoop)
+            self.ns_thread.start()
             
         #
         # Go
@@ -147,7 +148,8 @@ class App(object):
         if start_ns:
             print 'Killing the nameserver'
             #self.__nsstarter.shutdown()   ### Does not work
-            Pyro4.nsc.main("shutdown")
+            self.ns_daemon.shutdown()
+            self.ns_thread.join()
             #os.execlp('pyro-nsc', 'pyro-nsc', 'shutdown')  ### Annoying locator timeout
         print 'Exiting.'
         sys.exit()

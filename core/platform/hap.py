@@ -8,7 +8,13 @@ class HAP(object):
 
     COLON = ':'
 
-    def __init__(self, name=None, host=None, port=None):
+    def __init__(self, name=None, host=None, port=None, ns_lookup=False):
+        self._ns_lookup = ns_lookup
+        if ns_lookup:
+            self.ns_name = name
+        if (ns_lookup == True) and self.name is None:
+            raise ValueError, "Must specify name if ns_lookup==True"
+
         self.port = port
         if name is None:
             if host is None:
@@ -45,6 +51,8 @@ class HAP(object):
     #
 
     def __get_name(self):
+        if self.ns_lookup:
+            return self.ns_name
         if self.port is None:
             return self.host
         else:
@@ -61,6 +69,15 @@ class HAP(object):
             # Leave port unchanged
 
     name = property(__get_name, __set_name, None, "name of this HAP")
+
+    def __get_ns_lookup(self):
+        return self._ns_lookup
+
+    def __set_ns_lookup(self, value):
+        self._ns_lookup = value
+
+    ns_lookup = property(__get_ns_lookup, __set_ns_lookup, None, 
+        "Whether the name is a NameServer name or direct hostname")
 
     def __repr__(self):
         if self.port is None:

@@ -58,7 +58,7 @@ class Platform(object):
         #Pyro4.config.PYRO_MOBILE_CODE = 1
         #Pyro4.core.initServer()    
         # Create Pyro4 daemon
-        cls.daemon = Pyro4.core.Daemon()
+        cls.daemon = Pyro4.core.Daemon(host=self.__get_domain_name(), port=port)
         cls.running = True
         cls.nameserver = None
         cls.nslock = thread.allocate_lock()
@@ -71,10 +71,8 @@ class Platform(object):
             cls.nameserver = None
         elif nsmode == NsMode.LOCAL:
             print 'Will use a local nameserver.'
-            Pyro4.config.PYRO_NS_HOSTNAME = 'localhost'
             try:
-                nslocator = Pyro4.naming.NameServerLocator()
-                cls.nameserver = nslocator.getNS()
+                cls.nameserver = Pyro4.naming.locateNS()
             except Pyro4.errors.PyroError:
                 print "No nameserver could be found locally. Exiting."
                 return
@@ -98,9 +96,8 @@ class Platform(object):
 
         spyse.core.semant.environment.nameserver = cls.nameserver
 
-
-        cls.mts = MTS(hap=myhap)
-        mts_pyrouri = cls.daemon.register(cls.mts, pyroloc+'/mts')
+        cls.mts = MTS(hap=myhap, nameserver=cls.nameserver)
+        mts_pyrouri = cls.daemon.register(cls.mts, 'mts')
         cls.mts.pyrouri = mts_pyrouri
         print "-- Platform", myname, "has created the Message Transport System"
 
