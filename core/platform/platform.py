@@ -75,7 +75,7 @@ class Platform(object):
                 cls.nameserver = Pyro4.naming.locateNS()
             except Pyro4.errors.PyroError:
                 print "No nameserver could be found locally. Exiting."
-                return
+                raise
             else:
                 print 'Nameserver found locally.'
         elif nsmode == NsMode.REMOTE:

@@ -178,6 +178,7 @@ class DF(Agent):
         pass
 
     def __register_service_basic(self, agent_aid, service, localonly=None):
+            service.title, agent_aid))
         self.__registry_lock.acquire()
         try:
             s = self.__registry[service.title]
@@ -302,6 +303,8 @@ class DF(Agent):
             else:
                 return []
         except:
+            # Make sure the registry lock is released
+            self.__registry_lock.release()
             return []
         
     def __find_service_providers_retrieve(self, service, localonly=False):
