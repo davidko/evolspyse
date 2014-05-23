@@ -178,7 +178,6 @@ class DF(Agent):
         pass
 
     def __register_service_basic(self, agent_aid, service, localonly=None):
-            service.title, agent_aid))
         self.__registry_lock.acquire()
         try:
             s = self.__registry[service.title]

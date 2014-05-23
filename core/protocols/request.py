@@ -18,6 +18,8 @@ store_key = "store_key"
 customer_key = "customer_key"
 request_key = "request_key"
 default_key = "default_key"
+timeout_key = "timeout_key"
+event_time_key = "event_time_key"
 
 # FSM event names
 PARTICIPANT_NOT_FOUND = "PARTICIPANT_NOT_FOUND"
@@ -40,6 +42,7 @@ CANCEL_SUCCEEDED = "CANCEL_SUCCEEDED"
 CANCEL_FAILED = "CANCEL_FAILED"
 CANCELLED = "CANCELLED"
 FINISHED = "FINISHED"
+TIMEOUT = "TIMEOUT"
 #
 INITIATION_RECEIVED = "INITIATION_RECEIVED"
 REQUEST_PERFORMED = "REQUEST_PERFORMED"
@@ -272,6 +275,7 @@ class SendRequestBehaviour(InitiatorStateBehaviour):
         self.datastore[conversation_key] = msg.conversation_id
         if self.agent.send_message(msg):
             self.result = INITIATION_SENT
+            self.datastore[event_time_key] = time.time()
         else:
             if self.handle_no_participant is not None:
                 self.handle_no_participant(self.datastore[store_key])
@@ -287,7 +291,12 @@ class AwaitResponseBehaviour(InitiatorStateBehaviour):
         #msg = self.agent.get_message()
         
         if msg is None:
-            self.result = default_key
+            timeout = self.datastore[timeout_key]
+            if timeout is not None and \
+                    (time.time() - self.datastore[event_time_key]) > timeout:
+                self.result = TIMEOUT
+            else:
+                self.result = default_key
         else:
             self.datastore[message_key] = msg
             self.result = RESPONSE_RECEIVED
@@ -415,7 +424,11 @@ class AwaitCancellationResultBehaviour(InitiatorStateBehaviour):
 class RequestInitiatorBehaviour(FSMBehaviour):
     """Behaviour for initiator role."""
 
-    def __init__(self, name='', datastore=None, store=None, request=None, handle_no_participant=None, handle_response=None, handle_agree=None, handle_refuse=None, handle_inform=None, handle_inform_done=None, handle_failure=None, cancel=None, check_cancel=None, **namedargs):
+    def __init__(self, name='', datastore=None, store=None, request=None,
+            handle_no_participant=None, handle_response=None, handle_agree=None,
+            handle_refuse=None, handle_inform=None, handle_inform_done=None,
+            handle_failure=None, cancel=None, check_cancel=None, timeout=None, 
+            **namedargs):
         if datastore is None:
             datastore = {}
         if handle_no_participant is not None:
@@ -436,6 +449,7 @@ class RequestInitiatorBehaviour(FSMBehaviour):
             self.cancel = cancel
         if check_cancel is not None:
             self.check_cancel = check_cancel
+        datastore[timeout_key] = timeout
         datastore[store_key] = store
         datastore[request_key] = request
         super(RequestInitiatorBehaviour, self).__init__(name, **namedargs)
