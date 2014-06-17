@@ -207,15 +207,19 @@ class AMS(Agent):
         except:
             pass
 
-# Commented out because unused
-#    def find_other(self):
-#        """Find one other AMS instance"""
-#        objs = self.__nameserver.list(":spyse")
-#        for obj in objs:
-#            if obj[1] == 1 and obj[0].find("/ams") != -1:
-#                prox = self.__nameserver.resolve(obj[0]).getProxy()
-#                if prox.objectID != self.objectGUID:
-#                    return prox
+    def find_others(self):
+        """Find one other AMS instance"""
+        if self.__nameserver is None:
+            return []
+        objs = self.__nameserver.list('spyse:')
+        return objs
+        """
+        for obj in objs:
+            if obj[1] == 1 and obj[0].find("/ams") != -1:
+                prox = self.__nameserver.resolve(obj[0]).getProxy()
+                if prox.objectID != self.objectGUID:
+                    return prox
+        """
     
     def add_other(self, other):
         """Add a reference to another AMS instance.

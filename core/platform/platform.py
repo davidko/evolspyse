@@ -52,8 +52,6 @@ class Platform(object):
         print
         
         # Pyro4 parameters
-        pyrogroup = ':spyse'         
-        pyroloc = myname.replace(".","+")
         #Pyro4.config.PYRO_PORT = port
         #Pyro4.config.PYRO_MOBILE_CODE = 1
         #Pyro4.core.initServer()    
@@ -64,7 +62,6 @@ class Platform(object):
         cls.nslock = thread.allocate_lock()
         spyse.core.semant.environment.dist = env
         spyse.core.semant.environment.daemon = cls.daemon
-        spyse.core.semant.environment.pyroloc = pyroloc
         
         if nsmode == NsMode.NONE:
             print 'Will not use a nameserver.'
@@ -102,7 +99,6 @@ class Platform(object):
         print "-- Platform", myname, "has created the Message Transport System"
 
         cls.ams = AMS(cls.daemon, cls.nameserver, myhap, cls.mts, threadmeth, poolsize)
-        #uri = cls.daemon.register(cls.ams, pyroloc+'/ams')
         cls.ams.aid.add_address(mts_pyrouri)
         cls.ams.init_dist(dist)
         print "-- Platform", myname, "has started the Agent Management System agent"
@@ -111,7 +107,6 @@ class Platform(object):
 
         cls.ams.start_agent(DF, name='DF', daemon = cls.daemon,
         nameserver=cls.nameserver, hap=myhap)
-        #df_uri = cls.daemon.register(cls.ams.get_agent('DF'), pyroloc+'/df')
         cls.ams.get_agent('DF').init_dist(dist)
         print "-- Platform", myname, "has started the Directory Facilitator agent"
 

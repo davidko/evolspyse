@@ -161,6 +161,9 @@ class ContractNetInitiatorBehaviour(FSMBehaviour):
                 else:
                     conclusion.performative = ACLMessage.REJECT_PROPOSAL
                 self.agent.send_message(conclusion)
+            if len(proposals) == 0:
+                self.result = ContractNetInitiatorBehaviour.CANCELLING
+                return
             self.result = ContractNetInitiatorBehaviour.CONCLUSION_SENT
     
     
@@ -274,6 +277,7 @@ class ContractNetInitiatorBehaviour(FSMBehaviour):
         #self.add_transition(handled_response_state, select_proposal_state, self.DEADLINE_REACHED)
         self.add_transition(receive_response_state, select_proposal_state, self.DEADLINE_REACHED)
         self.add_transition(select_proposal_state, send_conclusion_state, self.PROPOSAL_SELECTED)
+        self.add_transition(select_proposal_state, cancel_state, self.CANCELLING)
         self.add_transition(send_conclusion_state, receive_result_state, self.CONCLUSION_SENT)
         self.add_transition(receive_result_state, receive_result_state)
         self.add_transition(receive_result_state, handle_result_state, self.RESULT_RECEIVED)
