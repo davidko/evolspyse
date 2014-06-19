@@ -431,7 +431,7 @@ class AMS(Agent):
         self.unregister_agent(agent)
         
         self.__remote_amses_lock.acquire()
-        if isinstance(target, Pyro4.core.DynamicProxy):
+        if isinstance(target, Pyro4.core.Proxy):
             target.receive_agent(agent)
         else:
             Pyro4.core.getProxyForURI(target).receive_agent(agent)
