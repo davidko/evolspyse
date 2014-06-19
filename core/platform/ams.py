@@ -193,9 +193,11 @@ class AMS(Agent):
            Returns a set.
         """
         others = set()
-        objs = self.__nameserver.list(":spyse", regex="/ams")
+        objs = self.__nameserver.list()
+        objs = dict(map(lambda (k, v): (str(k), v), objs.iteritems()))
         for key, obj in objs.items():
-            others.add(Pyro4.Proxy(obj))
+            if key.startswith('spyse:') and key.endswith('ams'):
+                others.add(Pyro4.Proxy(obj))
         return others
 
     def __register_to_nameserver(self, name=None):
@@ -208,18 +210,7 @@ class AMS(Agent):
             pass
 
     def find_others(self):
-        """Find one other AMS instance"""
-        if self.__nameserver is None:
-            return []
-        objs = self.__nameserver.list('spyse:')
-        return objs
-        """
-        for obj in objs:
-            if obj[1] == 1 and obj[0].find("/ams") != -1:
-                prox = self.__nameserver.resolve(obj[0]).getProxy()
-                if prox.objectID != self.objectGUID:
-                    return prox
-        """
+        return self.__find_others()
     
     def add_other(self, other):
         """Add a reference to another AMS instance.
