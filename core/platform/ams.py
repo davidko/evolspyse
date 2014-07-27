@@ -427,6 +427,8 @@ class AMS(Agent):
             return False
         # Move it
         agent.state = AgentState.TRANSIT
+        # Remove all behaviours, in case behaviours are not picklable
+        agent.clear_behaviours()
         self.__lock.release()
         self.unregister_agent(agent)
         

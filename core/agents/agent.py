@@ -176,6 +176,9 @@ class Agent(object):
         try:
             self.__behaviours.remove(behaviour)
         except: pass
+
+    def clear_behaviours(self):
+        self.__behaviours = []
         
     def num_behaviours(self):
         return len(self.__behaviours)
