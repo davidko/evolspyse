@@ -183,6 +183,10 @@ class Agent(object):
     def num_behaviours(self):
         return len(self.__behaviours)
 
+    def _set_hap(self, hap):
+        """ This function should only be used by the agency to reset the agent's
+            HAP after the agent has migrated. """
+        self.__aid.hap = hap
 
 class TemplateQueue(object):
     def __init__(self):

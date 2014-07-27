@@ -502,6 +502,7 @@ class AMS(Agent):
         self.__lock.acquire()
         agent.mts = self.mts
         agent.aid.addresses = [self.mts.pyrouri]
+        agent._set_hap(self.__hap)
         self.__lock.release()
         agent.execute()
         self.register_agent(agent)
