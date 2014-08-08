@@ -82,7 +82,13 @@ class Platform(object):
             else:
                 print 'Trying to find a nameserver at', ns_host + '.'
             try:
-                cls.nameserver = Pyro4.locateNS(ns_host)
+                if ":" in ns_host:
+                    hostname = ns_host.split(":")[0]
+                    port = ns_host.split(":")[1]
+                else:
+                    hostname = ns_host
+                    port = 9000
+                cls.nameserver = Pyro4.locateNS(host=hostname, port=int(port))
             except Pyro4.errors.PyroError:
                 print "No nameserver could be found. Exiting."
                 return
